@@ -154,7 +154,7 @@ NSString * const ImagePlaceholderTag = @"\U0000fffc";
         }
     }];
     
-    //图片尺寸调整
+    //为了调整图片尺寸 需要在图片名后面拼接有图片宽高 例如：img-880x568.jpg
     [mAttributedString enumerateAttribute:NSAttachmentAttributeName inRange:NSMakeRange(0, mAttributedString.length) options:(NSAttributedStringEnumerationLongestEffectiveRangeNotRequired) usingBlock:^(id  _Nullable value, NSRange range, BOOL * _Nonnull stop) {
         
         if ([value isKindOfClass:[NSTextAttachment class]]) {

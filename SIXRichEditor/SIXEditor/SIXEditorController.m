@@ -79,7 +79,7 @@
     if (self.htmlString.length == 0) return;
     
     [SIXHTMLParser attributedTextWithHtmlString:self.htmlString
-                                     imageWidth:self.view.frame.size.width-10
+                                     imageWidth:self.editorView.frame.size.width-self.editorView.textContainer.lineFragmentPadding*2
                            andCompletionHandler:^(NSAttributedString *attributedText) {
         self.editorView.attributedText = attributedText;
     }];

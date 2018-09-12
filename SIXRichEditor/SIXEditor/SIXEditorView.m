@@ -186,7 +186,7 @@
         return;
     }
     
-    CGFloat width = self.frame.size.width-10;
+    CGFloat width = self.frame.size.width-self.textContainer.lineFragmentPadding*2;
     
     NSMutableAttributedString *mAttributedString = self.attributedText.mutableCopy;
     
