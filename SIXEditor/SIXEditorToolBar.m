@@ -91,12 +91,14 @@
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     [button addTarget:self action:@selector(clickItem:) forControlEvents:UIControlEventTouchUpInside];
     
+    NSBundle *bundle = [NSBundle bundleWithPath:[[NSBundle bundleForClass:[self class]] pathForResource:@"SIXEditor" ofType:@"bundle"]];
+    
     NSString *imageName = [self itemImageName:action];
-    UIImage *image = [UIImage imageNamed:[NSString stringWithFormat:@"%@.png", imageName]];
+    UIImage *image = [UIImage imageNamed:imageName inBundle:bundle compatibleWithTraitCollection:nil];
     [button setImage:image forState:(UIControlStateNormal)];
     
-    imageName = [imageName stringByAppendingString:@"_select.png"];
-    image = [UIImage imageNamed:imageName];
+    imageName = [imageName stringByAppendingString:@"_select"];
+    image = [UIImage imageNamed:imageName inBundle:bundle compatibleWithTraitCollection:nil];
     [button setImage:image forState:(UIControlStateSelected)];
     button.tag = action;
     return button;
