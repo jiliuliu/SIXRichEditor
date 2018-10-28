@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "SIXRichEditor"
-  s.version      = "1.0.3"
+  s.version      = "1.0.4"
   s.summary      = "基于UITextView的富文本编辑器."
 
   # This description issed to generate tags and improve search results.
@@ -88,7 +88,8 @@ Pod::Spec.new do |s|
   #  Not including the public_header_files will make all headers public.
   #
 
-  s.source_files  = 'SIXEditor/**/*'
+  s.source_files = 'SIXEditor/**/*.{h,m}'
+  s.resource     = 'SIXEditor/SIXEditor.bundle'
   #   s.exclude_files = "Classes/Exclude"
 
   # s.public_header_files = "Classes/**/*.h"
