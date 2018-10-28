@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EA0AB15C218562A50097DEA8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EAF104C1210D53170009CED7 /* Assets.xcassets */; };
 		EABDC4C62110915A005E4157 /* SIXEditorController.m in Sources */ = {isa = PBXBuildFile; fileRef = EABDC4C52110915A005E4157 /* SIXEditorController.m */; };
 		EABDC4C921109992005E4157 /* SIXEditorInputManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EABDC4C821109992005E4157 /* SIXEditorInputManager.m */; };
 		EABDC4CC21109A63005E4157 /* SIXEditorInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = EABDC4CB21109A63005E4157 /* SIXEditorInputView.m */; };
@@ -41,7 +42,6 @@
 		EACA51982112E61C0027552E /* SIXHTMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = EACA51972112E61C0027552E /* SIXHTMLParser.m */; };
 		EAF104BA210D53160009CED7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EAF104B9210D53160009CED7 /* AppDelegate.m */; };
 		EAF104C0210D53160009CED7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EAF104BE210D53160009CED7 /* Main.storyboard */; };
-		EAF104C2210D53170009CED7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EAF104C1210D53170009CED7 /* Assets.xcassets */; };
 		EAF104C5210D53170009CED7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EAF104C3210D53170009CED7 /* LaunchScreen.storyboard */; };
 		EAF104C8210D53170009CED7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = EAF104C7210D53170009CED7 /* main.m */; };
 		EAF104E5210D556D0009CED7 /* SIXEditorView.m in Sources */ = {isa = PBXBuildFile; fileRef = EAF104E4210D556D0009CED7 /* SIXEditorView.m */; };
@@ -149,7 +149,8 @@
 		EAF104AC210D53160009CED7 = {
 			isa = PBXGroup;
 			children = (
-				EAF104B7210D53160009CED7 /* SIXRichEditor */,
+				EAF104E2210D54C20009CED7 /* SIXEditor */,
+				EAF104B7210D53160009CED7 /* Example */,
 				EAF104B6210D53160009CED7 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -162,16 +163,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		EAF104B7210D53160009CED7 /* SIXRichEditor */ = {
-			isa = PBXGroup;
-			children = (
-				EAF104E2210D54C20009CED7 /* SIXEditor */,
-				EAF104CE210D53310009CED7 /* other */,
-			);
-			path = SIXRichEditor;
-			sourceTree = "<group>";
-		};
-		EAF104CE210D53310009CED7 /* other */ = {
+		EAF104B7210D53160009CED7 /* Example */ = {
 			isa = PBXGroup;
 			children = (
 				EAF104B8210D53160009CED7 /* AppDelegate.h */,
@@ -184,7 +176,7 @@
 				EAF104C6210D53170009CED7 /* Info.plist */,
 				EAF104C7210D53170009CED7 /* main.m */,
 			);
-			name = other;
+			path = Example;
 			sourceTree = "<group>";
 		};
 		EAF104E2210D54C20009CED7 /* SIXEditor */ = {
@@ -263,6 +255,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EA0AB15C218562A50097DEA8 /* Assets.xcassets in Resources */,
 				EACA5195211295F80027552E /* Editor_textColor@2x.png in Resources */,
 				EACA518F211295F80027552E /* Editor_underline_select@2x.png in Resources */,
 				EACA5176211295F80027552E /* Editor_image_select@2x.png in Resources */,
@@ -277,7 +270,6 @@
 				EACA5173211295F80027552E /* Editor_bold_select@3x.png in Resources */,
 				EACA517B211295F80027552E /* Editor_fontSize_select@3x.png in Resources */,
 				EACA516D211295F80027552E /* Editor_keyboard_select@3x.png in Resources */,
-				EAF104C2210D53170009CED7 /* Assets.xcassets in Resources */,
 				EACA5184211295F80027552E /* Editor_itatic_select@3x.png in Resources */,
 				EACA5191211295F80027552E /* Editor_underline@3x.png in Resources */,
 				EACA518A211295F80027552E /* Editor_textColor_select@3x.png in Resources */,
