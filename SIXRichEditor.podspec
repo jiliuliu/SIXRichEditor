@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "SIXRichEditor"
-  s.version      = "0.0.3"
+  s.version      = "1.0.0"
   s.summary      = "基于UITextView的富文本编辑器."
 
   # This description issed to generate tags and improve search results.
