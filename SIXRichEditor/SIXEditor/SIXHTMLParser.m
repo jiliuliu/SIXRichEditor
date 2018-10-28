@@ -102,7 +102,7 @@ NSString * const ImagePlaceholderTag = @"\U0000fffc";
     handler(html);
     
     
-#warning 替换成自己的图片请求
+#warning  将图片上传，获取图片地址，然后把图片地址写入html中， 替换成自己的图片请求
     
 //    if (images.count) {
 //        //上传图片

@@ -40,7 +40,6 @@
 		EACA5195211295F80027552E /* Editor_textColor@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EACA516B211295F80027552E /* Editor_textColor@2x.png */; };
 		EACA51982112E61C0027552E /* SIXHTMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = EACA51972112E61C0027552E /* SIXHTMLParser.m */; };
 		EAF104BA210D53160009CED7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EAF104B9210D53160009CED7 /* AppDelegate.m */; };
-		EAF104BD210D53160009CED7 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EAF104BC210D53160009CED7 /* ViewController.m */; };
 		EAF104C0210D53160009CED7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EAF104BE210D53160009CED7 /* Main.storyboard */; };
 		EAF104C2210D53170009CED7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EAF104C1210D53170009CED7 /* Assets.xcassets */; };
 		EAF104C5210D53170009CED7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EAF104C3210D53170009CED7 /* LaunchScreen.storyboard */; };
@@ -89,8 +88,6 @@
 		EAF104B5210D53160009CED7 /* SIXRichEditor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SIXRichEditor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EAF104B8210D53160009CED7 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		EAF104B9210D53160009CED7 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		EAF104BB210D53160009CED7 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		EAF104BC210D53160009CED7 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		EAF104BF210D53160009CED7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		EAF104C1210D53170009CED7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EAF104C4210D53170009CED7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -179,8 +176,8 @@
 			children = (
 				EAF104B8210D53160009CED7 /* AppDelegate.h */,
 				EAF104B9210D53160009CED7 /* AppDelegate.m */,
-				EAF104BB210D53160009CED7 /* ViewController.h */,
-				EAF104BC210D53160009CED7 /* ViewController.m */,
+				EABDC4C42110915A005E4157 /* SIXEditorController.h */,
+				EABDC4C52110915A005E4157 /* SIXEditorController.m */,
 				EAF104BE210D53160009CED7 /* Main.storyboard */,
 				EAF104C1210D53170009CED7 /* Assets.xcassets */,
 				EAF104C3210D53170009CED7 /* LaunchScreen.storyboard */,
@@ -202,8 +199,6 @@
 				EABDC4CB21109A63005E4157 /* SIXEditorInputView.m */,
 				EABDC4C721109992005E4157 /* SIXEditorInputManager.h */,
 				EABDC4C821109992005E4157 /* SIXEditorInputManager.m */,
-				EABDC4C42110915A005E4157 /* SIXEditorController.h */,
-				EABDC4C52110915A005E4157 /* SIXEditorController.m */,
 				EACA51962112E61C0027552E /* SIXHTMLParser.h */,
 				EACA51972112E61C0027552E /* SIXHTMLParser.m */,
 				EAF104E6210D58FE0009CED7 /* SIXEditorHeader.h */,
@@ -312,7 +307,6 @@
 				EABDC4C921109992005E4157 /* SIXEditorInputManager.m in Sources */,
 				EABDC4CC21109A63005E4157 /* SIXEditorInputView.m in Sources */,
 				EAF104E5210D556D0009CED7 /* SIXEditorView.m in Sources */,
-				EAF104BD210D53160009CED7 /* ViewController.m in Sources */,
 				EAF104C8210D53170009CED7 /* main.m in Sources */,
 				EAF104EA210D685C0009CED7 /* SIXEditorToolBar.m in Sources */,
 				EABDC4C62110915A005E4157 /* SIXEditorController.m in Sources */,
