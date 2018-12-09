@@ -13,6 +13,7 @@
 @interface SIXEditorView ()
 {
     CGFloat fontSize;
+//    NSTextAlignment six_textAlignment;
     UIColor *textColor;
     
     BOOL isBold;
@@ -332,3 +333,16 @@
 
 
 @end
+
+
+//- (void)setTextAlignmentInRange {
+//    NSRange range = self.selectedRange;
+//    NSDictionary *dict = [self.attributedText attributesAtIndex:self.selectedRange.location effectiveRange:&range];
+//    NSParagraphStyle *style = dict[NSParagraphStyleAttributeName];
+//
+//    NSMutableParagraphStyle *mStyle = style.mutableCopy;
+//    mStyle.alignment = self->six_textAlignment;
+//    NSMutableAttributedString *attributedString = self.attributedText.mutableCopy;
+//    [attributedString addAttribute:NSParagraphStyleAttributeName value:mStyle range:self.selectedRange];
+//    self.attributedText = attributedString.copy;
+//}

@@ -70,9 +70,14 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    if ([self.editorView hasText] == NO) {
+    if (self.htmlString.length == 0) {
         [self.editorView becomeFirstResponder];
     }
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    [self.editorView resignFirstResponder];
 }
 
 - (void)loadData {
