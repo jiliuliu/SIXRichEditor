@@ -10,10 +10,4 @@
 
 @interface SIXEditorController : UIViewController
 
-@property (nonatomic, assign) BOOL editable;
-
-@property (nonatomic, strong) NSString *htmlString;
-
-@property (nonatomic, copy) void (^resultCallBack)(NSString *html);
-
 @end
