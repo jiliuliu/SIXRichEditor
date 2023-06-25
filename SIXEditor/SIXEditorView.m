@@ -8,12 +8,13 @@
 
 #import "SIXEditorView.h"
 #import "SIXEditorToolBar.h"
-#import "SIXEditorInputManager.h"
+#import "SIXEditorToolController.h"
+#import "UIFont+Category.h"
+#import "SIXHTMLParser.h"
 
-@interface SIXEditorView ()
+@interface SIXEditorView () <SIXEditorProtocol>
 {
     CGFloat fontSize;
-//    NSTextAlignment six_textAlignment;
     UIColor *textColor;
     
     BOOL isBold;
@@ -23,17 +24,20 @@
     SIXEditorAction action;
 }
 
-@property (nonatomic, strong) SIXEditorInputManager *inputManager;
+@property (nonatomic, strong) SIXEditorToolController *toolController;
+@property (nonatomic, strong) SIXHTMLParser *parser;
+
+@property (nonatomic, strong) NSString *html;
+
 @end
 
 @implementation SIXEditorView
-
+@synthesize textStyleUpdated;
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
-        
         fontSize = 16;
         textColor = [UIColor blackColor];
         isBold = NO;
@@ -43,28 +47,29 @@
         
         self.textColor = textColor;
         self.selectable = YES;
+        self.allowsEditingTextAttributes = YES;
         self.showsHorizontalScrollIndicator = NO;
         self.font = [UIFont systemFontOfSize:fontSize];
-//        self.placeholder = @"点击屏幕，开始编辑。。。";
         
+        _parser = [[SIXHTMLParser alloc] init];
+        _toolController = [[SIXEditorToolController alloc] initWithEditor:self];
         [self resetTypingAttributes];
-        
-        //键盘控制器
-        _inputManager = [[SIXEditorInputManager alloc] init];
-        _inputManager.editorView = self;
-        _inputManager.toolBar.inputView.selectedFontSize = fontSize;
-        _inputManager.toolBar.inputView.selectedTextColor = textColor;
+        [self sendTextStyleUpdate];
     }
     return self;
 }
 
+- (void)setImageUploader:(id<SIXEditorImageUploader>)uploader {
+    self.parser.imageUploader = uploader;
+}
+
 - (void)setEditable:(BOOL)editable {
     [super setEditable:editable];
-    
-    if (editable == NO) {
-        self.inputAccessoryView = nil;
+    if (editable) {
+        self.toolController = [[SIXEditorToolController alloc] initWithEditor:self];
     } else {
-        self.inputAccessoryView = self.inputManager.toolBar;
+        self.inputAccessoryView = nil;
+        self.toolController = nil;
     }
 }
 
@@ -79,20 +84,12 @@
     switch (action) {
         case SIXEditorActionBold: {
             UIFont *font = dict[NSFontAttributeName];
-            CGFloat fontSize = [font.fontDescriptor.fontAttributes[UIFontDescriptorSizeAttribute] floatValue];
-            if (isBold) {
-                dict[NSFontAttributeName] = [UIFont boldSystemFontOfSize:fontSize];
-            } else {
-                dict[NSFontAttributeName] = [UIFont systemFontOfSize:fontSize];
-            }
+            dict[NSFontAttributeName] = [font copyWithBold:isBold];
         }
             break;
         case SIXEditorActionItatic: {
-            if (isItalic) {
-                dict[NSObliquenessAttributeName] = @(Editor_Italic_Rate);
-            } else {
-                [dict removeObjectForKey:NSObliquenessAttributeName];
-            }
+            UIFont *font = dict[NSFontAttributeName];
+            dict[NSFontAttributeName] = [font copyWithItatic:isItalic];
         }
             break;
         case SIXEditorActionUnderline: {
@@ -108,18 +105,12 @@
             break;
         case SIXEditorActionFontSize: {
             UIFont *font = dict[NSFontAttributeName];
-            if ((font.fontDescriptor.symbolicTraits & UIFontDescriptorTraitBold) > 0) {
-                dict[NSFontAttributeName] = [UIFont boldSystemFontOfSize:fontSize];
-            } else {
-                dict[NSFontAttributeName] = [UIFont systemFontOfSize:fontSize];
-            }
+            dict[NSFontAttributeName] = [font copyWithFontSize:fontSize];
         }
             break;
         case SIXEditorActionTextColor: {
             dict[NSForegroundColorAttributeName] = textColor;
         }
-            break;
-        case SIXEditorActionImage:
             break;
         default:
             break;
@@ -129,7 +120,7 @@
 }
 
 
-#pragma - mark ------- actions -------
+#pragma - mark ------ SIXEditorProtocol -------
 
 - (void)handleAction:(SIXEditorAction)newAction andValue:(id)value {
     action = newAction;
@@ -142,7 +133,7 @@
             break;
         case SIXEditorActionItatic:
             isItalic = [value boolValue];
-            rangeSelector = @selector(setItalicInRange);
+            rangeSelector = @selector(setItaticInRange);
             break;
         case SIXEditorActionUnderline:
             isUnderline = [value boolValue];
@@ -157,31 +148,91 @@
             rangeSelector = @selector(setTextColorInRange);
             break;
         case SIXEditorActionImage:
-            [self setImage:(UIImage *)value];
-            return;
-        case SIXEditorActionKeyboard:
-            [self resignFirstResponder];
+            [self insertImageInRange:(UIImage *)value];
             return;
         default:
             break;
     }
     
-    if (self.selectedRange.length) {
-        NSRange range = self.selectedRange;
-        
+    if (self.selectedRange.length > 0) {
         #pragma clang diagnostic push
         #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
         [self performSelector:rangeSelector];
         #pragma clang diagnostic pop
-        
-        self.selectedRange = range;
-        [self scrollRangeToVisible:range];
     } else {
         [self resetTypingAttributes];
     }
 }
 
-- (void)setImage:(UIImage *)image {
+- (void)modifyAttributedText:(void (^)(NSMutableAttributedString *attributedString))block {
+    NSRange range = self.selectedRange;
+    NSMutableAttributedString *attributedString = self.attributedText.mutableCopy;
+    block(attributedString);
+    self.attributedText = attributedString;
+    self.selectedRange = range;
+    [self scrollRangeToVisible:range];
+}
+
+- (void)setBoldInRange {
+    [self modifyAttributedText:^(NSMutableAttributedString *attributedString) {
+        [attributedString enumerateAttribute:NSFontAttributeName inRange:self.selectedRange options:(NSAttributedStringEnumerationLongestEffectiveRangeNotRequired) usingBlock:^(id  _Nullable value, NSRange range0, BOOL * _Nonnull stop) {
+            if ([value isKindOfClass:[UIFont class]]) {
+                UIFont *font = value;
+                [attributedString addAttribute:NSFontAttributeName value:[font copyWithBold:self->isBold] range:range0];
+            }
+        }];
+    }];
+}
+
+- (void)setItaticInRange {
+    [self modifyAttributedText:^(NSMutableAttributedString *attributedString) {
+        [attributedString enumerateAttribute:NSFontAttributeName inRange:self.selectedRange options:(NSAttributedStringEnumerationLongestEffectiveRangeNotRequired) usingBlock:^(id  _Nullable value, NSRange range0, BOOL * _Nonnull stop) {
+            if ([value isKindOfClass:[UIFont class]]) {
+                UIFont *font = value;
+                [attributedString addAttribute:NSFontAttributeName value:[font copyWithItatic:self->isItalic] range:range0];
+            }
+        }];
+    }];
+}
+
+- (void)setUnderlineInRange {
+    [self modifyAttributedText:^(NSMutableAttributedString *attributedString) {
+        if (self->isUnderline == NO) {
+            [attributedString removeAttribute:NSUnderlineStyleAttributeName range:self.selectedRange];
+            [attributedString removeAttribute:NSUnderlineColorAttributeName range:self.selectedRange];
+            self.attributedText = attributedString.copy;
+            return;
+        }
+        
+        [attributedString enumerateAttribute:NSForegroundColorAttributeName inRange:self.selectedRange options:(NSAttributedStringEnumerationLongestEffectiveRangeNotRequired) usingBlock:^(id  _Nullable value, NSRange range0, BOOL * _Nonnull stop) {
+            
+            if ([value isKindOfClass:[UIColor class]]) {
+                UIColor *color = value;
+                [attributedString addAttribute:NSUnderlineColorAttributeName value:color range:range0];
+                [attributedString addAttribute:NSUnderlineStyleAttributeName value:@1 range:range0];
+            }
+        }];
+    }];
+}
+
+- (void)setFontSizeInRange {
+    [self modifyAttributedText:^(NSMutableAttributedString *attributedString) {
+        [attributedString enumerateAttribute:NSFontAttributeName inRange:self.selectedRange options:(NSAttributedStringEnumerationLongestEffectiveRangeNotRequired) usingBlock:^(id  _Nullable value, NSRange range0, BOOL * _Nonnull stop) {
+            if ([value isKindOfClass:[UIFont class]]) {
+                UIFont *font = value;
+                [attributedString addAttribute:NSFontAttributeName value:[font copyWithFontSize:self->fontSize] range:range0];
+            }
+        }];
+    }];
+}
+
+- (void)setTextColorInRange {
+    [self modifyAttributedText:^(NSMutableAttributedString *attributedString) {
+        [attributedString addAttribute:NSForegroundColorAttributeName value:self->textColor range:self.selectedRange];
+    }];
+}
+
+- (void)insertImageInRange:(UIImage *)image {
     if (image == nil) {
         [self becomeFirstResponder];
         return;
@@ -204,113 +255,26 @@
     NSInteger location = NSMaxRange(self.selectedRange) + 1;
     self.attributedText = mAttributedString.copy;
     
-    //回复焦点
+    //恢复焦点
     self.selectedRange = NSMakeRange(location, 0);
     [self becomeFirstResponder];
 }
 
-- (void)setBoldInRange {
-    NSMutableAttributedString *attributedString = self.attributedText.mutableCopy;
-    
-    [attributedString enumerateAttribute:NSFontAttributeName inRange:self.selectedRange options:(NSAttributedStringEnumerationLongestEffectiveRangeNotRequired) usingBlock:^(id  _Nullable value, NSRange range0, BOOL * _Nonnull stop) {
-        
-        if ([value isKindOfClass:[UIFont class]]) {
-            UIFont *font = value;
-            //字号
-            CGFloat fontSize = [font.fontDescriptor.fontAttributes[UIFontDescriptorSizeAttribute] floatValue];
-            UIFont *newFont = self->isBold ? [UIFont boldSystemFontOfSize:fontSize] : [UIFont systemFontOfSize:fontSize];
-            [attributedString addAttribute:NSFontAttributeName value:newFont range:range0];
-        }
-    }];
-    
-    self.attributedText = attributedString.copy;
-}
-
-- (void)setItalicInRange {
-    NSMutableAttributedString *attributedString = self.attributedText.mutableCopy;
-    
-    if (isItalic) {
-        [attributedString addAttribute:NSObliquenessAttributeName value:@(Editor_Italic_Rate) range:self.selectedRange];
-    } else {
-        [attributedString removeAttribute:NSObliquenessAttributeName range:self.selectedRange];
-    }
-    
-    self.attributedText = attributedString.copy;
-}
-
-- (void)setUnderlineInRange {
-    NSMutableAttributedString *attributedString = self.attributedText.mutableCopy;
-    
-    if (isUnderline == NO) {
-        [attributedString removeAttribute:NSUnderlineStyleAttributeName range:self.selectedRange];
-        [attributedString removeAttribute:NSUnderlineColorAttributeName range:self.selectedRange];
-        self.attributedText = attributedString.copy;
-        return;
-    }
-    
-    [attributedString enumerateAttribute:NSForegroundColorAttributeName inRange:self.selectedRange options:(NSAttributedStringEnumerationLongestEffectiveRangeNotRequired) usingBlock:^(id  _Nullable value, NSRange range0, BOOL * _Nonnull stop) {
-        
-        if ([value isKindOfClass:[UIColor class]]) {
-            UIColor *color = value;
-            [attributedString addAttribute:NSUnderlineColorAttributeName value:color range:range0];
-            [attributedString addAttribute:NSUnderlineStyleAttributeName value:@1 range:range0];
-        }
-    }];
-    self.attributedText = attributedString.copy;
-}
-
-- (void)setFontSizeInRange {
-    NSMutableAttributedString *attributedString = self.attributedText.mutableCopy;
-    
-    [attributedString enumerateAttribute:NSFontAttributeName inRange:self.selectedRange options:(NSAttributedStringEnumerationLongestEffectiveRangeNotRequired) usingBlock:^(id  _Nullable value, NSRange range0, BOOL * _Nonnull stop) {
-        
-        if ([value isKindOfClass:[UIFont class]]) {
-            UIFont *font = value;
-            UIFont *newFont = nil;
-            //粗体
-            if ((font.fontDescriptor.symbolicTraits & UIFontDescriptorTraitBold) > 0) {
-                newFont = [UIFont boldSystemFontOfSize:self->fontSize];
-            } else {
-                newFont = [UIFont systemFontOfSize:self->fontSize];
-            }
-            [attributedString addAttribute:NSFontAttributeName value:newFont range:range0];
-        }
-    }];
-    
-    self.attributedText = attributedString.copy;
-}
-
-- (void)setTextColorInRange {
-    NSMutableAttributedString *attributedString = self.attributedText.mutableCopy;
-    
-    [attributedString addAttribute:NSForegroundColorAttributeName value:textColor range:self.selectedRange];
-    self.attributedText = attributedString.copy;
-}
-
-
 #pragma - mark ------ update toolbar item color -------
 
-- (void)changeColorOfToolBarItem  {
+/*
+    当焦点发生变化时，tool bar 的状态需要同步更新
+ */
+- (void)sendTextStyleUpdate  {
     if ([self isFirstResponder] == NO) return;
-    
     NSDictionary *attrs = self.typingAttributes;
-    
-    //斜体
-    isItalic = [attrs.allKeys containsObject:NSObliquenessAttributeName];
-    [self.inputManager.toolBar refreshUIOfItemButton:SIXEditorActionItatic andValue:@(italic)];
-    //下划线
-    isUnderline = [attrs.allKeys containsObject:NSUnderlineColorAttributeName];
-    [self.inputManager.toolBar refreshUIOfItemButton:SIXEditorActionUnderline andValue:@(isUnderline)];
-    //粗体
     UIFont *font = attrs[NSFontAttributeName];
-    isBold = (font.fontDescriptor.symbolicTraits & UIFontDescriptorTraitBold) > 0;
-    [self.inputManager.toolBar refreshUIOfItemButton:SIXEditorActionBold andValue:@(isBold)];
-    //字色
-    UIColor *color = attrs[NSForegroundColorAttributeName];
-    [self.inputManager.toolBar refreshUIOfItemButton:SIXEditorActionTextColor andValue:color];
-    //字体大小
-    CGFloat fontSize = [font.fontDescriptor.fontAttributes[UIFontDescriptorSizeAttribute] floatValue];
-    [self.inputManager.toolBar refreshUIOfItemButton:SIXEditorActionFontSize andValue:@(fontSize)];
+    isItalic = font.isItatic;
+    isBold = font.isBold;
+    isUnderline = [attrs.allKeys containsObject:NSUnderlineStyleAttributeName];
+    textColor = attrs[NSForegroundColorAttributeName];
+    fontSize = font.fontSize;
+    self.textStyleUpdated(fontSize, textColor, isItalic, isUnderline, isBold);
 }
 
 - (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
@@ -325,24 +289,31 @@
     
     if (event.type == UIEventTypeTouches) {
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [self changeColorOfToolBarItem];
+            [self sendTextStyleUpdate];
         });
     }
     return [super hitTest:point withEvent:event];
 }
 
+#pragma - mark ------ html parse -------
+
+- (void)setHtml:(NSString *)html completion:(void (^)(void))completion {
+    _html = html;
+    if (html.length == 0) {
+        self.attributedText = nil;
+        return;
+    }
+    CGFloat imageWidth = self.frame.size.width - self.textContainer.lineFragmentPadding * 2;
+    [self.parser attributedWithHtml:html imageWidth:imageWidth completion:^(NSAttributedString *attributedText) {
+        self.attributedText = attributedText;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            completion();
+        });
+    }];
+}
+
+- (void)getHtml:(void (^)(NSString *))completion {
+    [self.parser htmlWithAttributed:self.attributedText orignalHtml:self.html completion: completion];
+}
 
 @end
-
-
-//- (void)setTextAlignmentInRange {
-//    NSRange range = self.selectedRange;
-//    NSDictionary *dict = [self.attributedText attributesAtIndex:self.selectedRange.location effectiveRange:&range];
-//    NSParagraphStyle *style = dict[NSParagraphStyleAttributeName];
-//
-//    NSMutableParagraphStyle *mStyle = style.mutableCopy;
-//    mStyle.alignment = self->six_textAlignment;
-//    NSMutableAttributedString *attributedString = self.attributedText.mutableCopy;
-//    [attributedString addAttribute:NSParagraphStyleAttributeName value:mStyle range:self.selectedRange];
-//    self.attributedText = attributedString.copy;
-//}

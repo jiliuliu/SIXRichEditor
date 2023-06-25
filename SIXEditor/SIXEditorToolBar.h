@@ -7,16 +7,16 @@
 //
 
 #import "SIXEditorHeader.h"
-#import "SIXEditorInputView.h"
 
-@class SIXEditorInputView;
-@interface SIXEditorToolBar : UIView <SIXEditorInputViewDelegate>
-@property (nonatomic, strong) SIXEditorInputView *inputView;
-@property (nonatomic, strong) NSArray *items;
-@property (nonatomic, copy) void (^clickItem) (SIXEditorAction action, id value);
 
-- (void)refreshUIOfItemButton:(SIXEditorAction)action andValue:(id)value;
-- (void)setEditorInputViewFrameWithShowOrHide:(BOOL)isShow;
-- (void)setDefaultItemColors;
+@interface SIXEditorToolBar : UIView
+
+// actions: NSArray<SIXEditorAction>
+- (instancetype)initWithActions:(NSArray *)actions toolButtonTapped:(void (^)(SIXEditorAction, BOOL))tapped;
+
+- (void)updateWithItatic:(BOOL)isItatic isUnderline:(BOOL)isUnderline isBold:(BOOL)isBold;
+
+- (void)resetButton:(SIXEditorAction)action;
+
 @end
 

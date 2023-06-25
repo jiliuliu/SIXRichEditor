@@ -9,9 +9,12 @@
 /* Begin PBXBuildFile section */
 		EA0AB15C218562A50097DEA8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EAF104C1210D53170009CED7 /* Assets.xcassets */; };
 		EA0AB15E2185840B0097DEA8 /* SIXEditor.bundle in Resources */ = {isa = PBXBuildFile; fileRef = EA0AB15D2185840B0097DEA8 /* SIXEditor.bundle */; };
+		EA7607A52A3C15C800C2B115 /* SIXEditorToolController.m in Sources */ = {isa = PBXBuildFile; fileRef = EA7607A42A3C15C800C2B115 /* SIXEditorToolController.m */; };
+		EA7607A82A3C4F4B00C2B115 /* SIXEditorImagePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = EA7607A72A3C4F4B00C2B115 /* SIXEditorImagePicker.m */; };
+		EA7607AB2A3C5F2C00C2B115 /* SIXEditorTextColorPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = EA7607AA2A3C5F2C00C2B115 /* SIXEditorTextColorPicker.m */; };
+		EA7607AE2A3C5F3900C2B115 /* SIXEditorFontSizePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = EA7607AD2A3C5F3900C2B115 /* SIXEditorFontSizePicker.m */; };
+		EA7607B12A42DF0500C2B115 /* UIFont+Category.m in Sources */ = {isa = PBXBuildFile; fileRef = EA7607B02A42DF0500C2B115 /* UIFont+Category.m */; };
 		EABDC4C62110915A005E4157 /* SIXEditorController.m in Sources */ = {isa = PBXBuildFile; fileRef = EABDC4C52110915A005E4157 /* SIXEditorController.m */; };
-		EABDC4C921109992005E4157 /* SIXEditorInputManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EABDC4C821109992005E4157 /* SIXEditorInputManager.m */; };
-		EABDC4CC21109A63005E4157 /* SIXEditorInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = EABDC4CB21109A63005E4157 /* SIXEditorInputView.m */; };
 		EACA51982112E61C0027552E /* SIXHTMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = EACA51972112E61C0027552E /* SIXHTMLParser.m */; };
 		EAF104BA210D53160009CED7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EAF104B9210D53160009CED7 /* AppDelegate.m */; };
 		EAF104C0210D53160009CED7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EAF104BE210D53160009CED7 /* Main.storyboard */; };
@@ -19,16 +22,23 @@
 		EAF104C8210D53170009CED7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = EAF104C7210D53170009CED7 /* main.m */; };
 		EAF104E5210D556D0009CED7 /* SIXEditorView.m in Sources */ = {isa = PBXBuildFile; fileRef = EAF104E4210D556D0009CED7 /* SIXEditorView.m */; };
 		EAF104EA210D685C0009CED7 /* SIXEditorToolBar.m in Sources */ = {isa = PBXBuildFile; fileRef = EAF104E9210D685C0009CED7 /* SIXEditorToolBar.m */; };
+		EAF4B2CE2A47DEC400E37224 /* example.txt in Resources */ = {isa = PBXBuildFile; fileRef = EAF4B2CD2A47DEC400E37224 /* example.txt */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		EA0AB15D2185840B0097DEA8 /* SIXEditor.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SIXEditor.bundle; sourceTree = "<group>"; };
+		EA7607A32A3C15C800C2B115 /* SIXEditorToolController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SIXEditorToolController.h; sourceTree = "<group>"; };
+		EA7607A42A3C15C800C2B115 /* SIXEditorToolController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SIXEditorToolController.m; sourceTree = "<group>"; };
+		EA7607A62A3C4F4B00C2B115 /* SIXEditorImagePicker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SIXEditorImagePicker.h; sourceTree = "<group>"; };
+		EA7607A72A3C4F4B00C2B115 /* SIXEditorImagePicker.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SIXEditorImagePicker.m; sourceTree = "<group>"; };
+		EA7607A92A3C5F2C00C2B115 /* SIXEditorTextColorPicker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SIXEditorTextColorPicker.h; sourceTree = "<group>"; };
+		EA7607AA2A3C5F2C00C2B115 /* SIXEditorTextColorPicker.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SIXEditorTextColorPicker.m; sourceTree = "<group>"; };
+		EA7607AC2A3C5F3900C2B115 /* SIXEditorFontSizePicker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SIXEditorFontSizePicker.h; sourceTree = "<group>"; };
+		EA7607AD2A3C5F3900C2B115 /* SIXEditorFontSizePicker.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SIXEditorFontSizePicker.m; sourceTree = "<group>"; };
+		EA7607AF2A42DF0500C2B115 /* UIFont+Category.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIFont+Category.h"; sourceTree = "<group>"; };
+		EA7607B02A42DF0500C2B115 /* UIFont+Category.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIFont+Category.m"; sourceTree = "<group>"; };
 		EABDC4C42110915A005E4157 /* SIXEditorController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SIXEditorController.h; sourceTree = "<group>"; };
 		EABDC4C52110915A005E4157 /* SIXEditorController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SIXEditorController.m; sourceTree = "<group>"; };
-		EABDC4C721109992005E4157 /* SIXEditorInputManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SIXEditorInputManager.h; sourceTree = "<group>"; };
-		EABDC4C821109992005E4157 /* SIXEditorInputManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SIXEditorInputManager.m; sourceTree = "<group>"; };
-		EABDC4CA21109A63005E4157 /* SIXEditorInputView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SIXEditorInputView.h; sourceTree = "<group>"; };
-		EABDC4CB21109A63005E4157 /* SIXEditorInputView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SIXEditorInputView.m; sourceTree = "<group>"; };
 		EACA51962112E61C0027552E /* SIXHTMLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIXHTMLParser.h; sourceTree = "<group>"; };
 		EACA51972112E61C0027552E /* SIXHTMLParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIXHTMLParser.m; sourceTree = "<group>"; };
 		EAF104B5210D53160009CED7 /* SIXRichEditor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SIXRichEditor.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -44,6 +54,7 @@
 		EAF104E6210D58FE0009CED7 /* SIXEditorHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SIXEditorHeader.h; sourceTree = "<group>"; };
 		EAF104E8210D685C0009CED7 /* SIXEditorToolBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SIXEditorToolBar.h; sourceTree = "<group>"; };
 		EAF104E9210D685C0009CED7 /* SIXEditorToolBar.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SIXEditorToolBar.m; sourceTree = "<group>"; };
+		EAF4B2CD2A47DEC400E37224 /* example.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = example.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +90,7 @@
 			children = (
 				EAF104B8210D53160009CED7 /* AppDelegate.h */,
 				EAF104B9210D53160009CED7 /* AppDelegate.m */,
+				EAF4B2CD2A47DEC400E37224 /* example.txt */,
 				EABDC4C42110915A005E4157 /* SIXEditorController.h */,
 				EABDC4C52110915A005E4157 /* SIXEditorController.m */,
 				EAF104BE210D53160009CED7 /* Main.storyboard */,
@@ -96,12 +108,18 @@
 				EA0AB15D2185840B0097DEA8 /* SIXEditor.bundle */,
 				EAF104E3210D556D0009CED7 /* SIXEditorView.h */,
 				EAF104E4210D556D0009CED7 /* SIXEditorView.m */,
+				EA7607AF2A42DF0500C2B115 /* UIFont+Category.h */,
+				EA7607B02A42DF0500C2B115 /* UIFont+Category.m */,
 				EAF104E8210D685C0009CED7 /* SIXEditorToolBar.h */,
 				EAF104E9210D685C0009CED7 /* SIXEditorToolBar.m */,
-				EABDC4CA21109A63005E4157 /* SIXEditorInputView.h */,
-				EABDC4CB21109A63005E4157 /* SIXEditorInputView.m */,
-				EABDC4C721109992005E4157 /* SIXEditorInputManager.h */,
-				EABDC4C821109992005E4157 /* SIXEditorInputManager.m */,
+				EA7607A62A3C4F4B00C2B115 /* SIXEditorImagePicker.h */,
+				EA7607A72A3C4F4B00C2B115 /* SIXEditorImagePicker.m */,
+				EA7607A92A3C5F2C00C2B115 /* SIXEditorTextColorPicker.h */,
+				EA7607AA2A3C5F2C00C2B115 /* SIXEditorTextColorPicker.m */,
+				EA7607AC2A3C5F3900C2B115 /* SIXEditorFontSizePicker.h */,
+				EA7607AD2A3C5F3900C2B115 /* SIXEditorFontSizePicker.m */,
+				EA7607A32A3C15C800C2B115 /* SIXEditorToolController.h */,
+				EA7607A42A3C15C800C2B115 /* SIXEditorToolController.m */,
 				EACA51962112E61C0027552E /* SIXHTMLParser.h */,
 				EACA51972112E61C0027552E /* SIXHTMLParser.m */,
 				EAF104E6210D58FE0009CED7 /* SIXEditorHeader.h */,
@@ -170,6 +188,7 @@
 				EAF104C5210D53170009CED7 /* LaunchScreen.storyboard in Resources */,
 				EA0AB15E2185840B0097DEA8 /* SIXEditor.bundle in Resources */,
 				EAF104C0210D53160009CED7 /* Main.storyboard in Resources */,
+				EAF4B2CE2A47DEC400E37224 /* example.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -180,14 +199,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EABDC4C921109992005E4157 /* SIXEditorInputManager.m in Sources */,
-				EABDC4CC21109A63005E4157 /* SIXEditorInputView.m in Sources */,
+				EA7607A52A3C15C800C2B115 /* SIXEditorToolController.m in Sources */,
 				EAF104E5210D556D0009CED7 /* SIXEditorView.m in Sources */,
 				EAF104C8210D53170009CED7 /* main.m in Sources */,
 				EAF104EA210D685C0009CED7 /* SIXEditorToolBar.m in Sources */,
 				EABDC4C62110915A005E4157 /* SIXEditorController.m in Sources */,
+				EA7607AE2A3C5F3900C2B115 /* SIXEditorFontSizePicker.m in Sources */,
+				EA7607B12A42DF0500C2B115 /* UIFont+Category.m in Sources */,
 				EAF104BA210D53160009CED7 /* AppDelegate.m in Sources */,
+				EA7607AB2A3C5F2C00C2B115 /* SIXEditorTextColorPicker.m in Sources */,
 				EACA51982112E61C0027552E /* SIXHTMLParser.m in Sources */,
+				EA7607A82A3C4F4B00C2B115 /* SIXEditorImagePicker.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
